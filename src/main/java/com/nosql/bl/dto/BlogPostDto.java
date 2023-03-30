@@ -15,12 +15,13 @@ import java.util.List;
 @Builder
 public class BlogPostDto {
 
+    public String id;
     public String content;
     public LocalDateTime timestamp;
     public List<String> keywords;
 
     public static BlogPostDto mapFromBlogPost(BlogPost blogPost) {
         return BlogPostDto.builder().content(blogPost.getContent()).keywords(blogPost.getKeywords())
-                .timestamp(blogPost.getTimestamp()).build();
+                .timestamp(blogPost.getTimestamp()).id(blogPost.getId()).build();
     }
 }

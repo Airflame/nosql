@@ -20,4 +20,6 @@ public class BlogPostEndpoint {
     public BlogPostDto addBlogPost(@RequestBody AddBlogPostRequest addBlogPostRequest) {
         return blogPostService.addBlogPost(addBlogPostRequest);
     }
+
+
 }
