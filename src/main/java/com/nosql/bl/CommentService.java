@@ -33,4 +33,9 @@ public class CommentService {
         blogPostRepo.save(blogPost);
         return comment;
     }
+
+    public List<Comment> getAllCommentsForPost(String blogPostId) {
+        BlogPost blogPost = blogPostRepo.findById(blogPostId).orElseThrow();
+        return blogPost.getComments();
+    }
 }

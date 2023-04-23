@@ -11,8 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AddBlogPostRequest {
-
+public class UpdateBlogPostRequest {
     public String content;
     public List<String> keywords;
 }
