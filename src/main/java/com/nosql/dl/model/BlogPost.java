@@ -24,6 +24,7 @@ public class BlogPost {
     public String content;
     public LocalDateTime timestamp;
     public List<String> keywords;
+    public Long likes;
     @DBRef
     public List<Comment> comments;
 }

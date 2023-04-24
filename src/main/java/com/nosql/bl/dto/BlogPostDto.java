@@ -19,9 +19,10 @@ public class BlogPostDto {
     public String content;
     public LocalDateTime timestamp;
     public List<String> keywords;
+    public Long likes;
 
     public static BlogPostDto mapFromBlogPost(BlogPost blogPost) {
         return BlogPostDto.builder().content(blogPost.getContent()).keywords(blogPost.getKeywords())
-                .timestamp(blogPost.getTimestamp()).id(blogPost.getId()).build();
+                .timestamp(blogPost.getTimestamp()).id(blogPost.getId()).likes(blogPost.getLikes()).build();
     }
 }

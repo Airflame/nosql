@@ -23,7 +23,7 @@ public class BlogPostService {
 
     public BlogPostDto addBlogPost(AddBlogPostRequest addBlogPostRequest) {
         BlogPost blogPost = blogPostRepo.save(BlogPost.builder().content(addBlogPostRequest.getContent())
-                .timestamp(LocalDateTime.now()).keywords(addBlogPostRequest.getKeywords()).build());
+                .timestamp(LocalDateTime.now()).keywords(addBlogPostRequest.getKeywords()).likes(0L).build());
         return BlogPostDto.mapFromBlogPost(blogPost);
     }
 
@@ -54,6 +54,7 @@ public class BlogPostService {
                 .keywords(updateBlogPostRequest.getKeywords())
                 .timestamp(blogPost.getTimestamp())
                 .comments(blogPost.getComments())
+                .likes(blogPost.getLikes())
                 .build());
         return BlogPostDto.mapFromBlogPost(blogPost);
     }
