@@ -23,7 +23,9 @@ public class CommentService {
     public Comment addCommentToPost(AddCommentRequest addCommentRequest, String blogPostId) {
         BlogPost blogPost = blogPostRepo.findById(blogPostId).orElseThrow();
         Comment comment = commentRepo.save(Comment.builder().content(addCommentRequest.getContent())
-                .timestamp(LocalDateTime.now()).build());
+                .author(addCommentRequest.getAuthor())
+                .timestamp(LocalDateTime.now())
+                .moderated(false).build());
         List<Comment> comments = blogPost.getComments();
         if (comments == null) {
             comments = new ArrayList<>();

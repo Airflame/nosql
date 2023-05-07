@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AddCommentRequest {
 
+    public String author;
     public String content;
 }

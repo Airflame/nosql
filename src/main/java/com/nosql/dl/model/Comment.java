@@ -19,6 +19,8 @@ public class Comment {
     @Id
     public String id;
 
+    public String author;
     public String content;
     public LocalDateTime timestamp;
+    public boolean moderated;
 }
