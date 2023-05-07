@@ -4,6 +4,7 @@ import com.nosql.bl.CommentService;
 import com.nosql.dl.model.Comment;
 import com.nosql.sl.request.AddCommentRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class CommentEndpoint {
 
     @PostMapping("/api/blog-post/{blogPostId}/comment")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority({'ADMIN', 'GUEST'})")
     public Comment addComment(@PathVariable("blogPostId") String blogPostId, @RequestBody AddCommentRequest addCommentRequest) {
         return commentService.addCommentToPost(addCommentRequest, blogPostId);
     }
