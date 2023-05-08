@@ -6,6 +6,7 @@ import com.nosql.dl.repo.BlogPostRepo;
 import com.nosql.dl.repo.CommentRepo;
 import com.nosql.sl.request.AddCommentRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,10 +21,10 @@ public class CommentService {
 
     private final CommentRepo commentRepo;
 
-    public Comment addCommentToPost(AddCommentRequest addCommentRequest, String blogPostId) {
+    public Comment addCommentToPost(AddCommentRequest addCommentRequest, String blogPostId, Authentication authentication) {
         BlogPost blogPost = blogPostRepo.findById(blogPostId).orElseThrow();
         Comment comment = commentRepo.save(Comment.builder().content(addCommentRequest.getContent())
-                .author(addCommentRequest.getAuthor())
+                .author(authentication.getName())
                 .timestamp(LocalDateTime.now())
                 .moderated(false).build());
         List<Comment> comments = blogPost.getComments();
