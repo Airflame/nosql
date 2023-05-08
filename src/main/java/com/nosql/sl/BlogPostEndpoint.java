@@ -30,6 +30,7 @@ public class BlogPostEndpoint {
 
     @DeleteMapping("/{blogPostId}")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseBody
     public void deleteBlogPost(@PathVariable(name = "blogPostId") String blogPostId) {
         blogPostService.deleteBlogPost(blogPostId);
     }

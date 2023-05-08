@@ -1,10 +1,12 @@
 package com.nosql.bl;
 
+import com.nosql.bl.dto.BlogPostDto;
 import com.nosql.dl.model.BlogPost;
 import com.nosql.dl.model.Comment;
 import com.nosql.dl.repo.BlogPostRepo;
 import com.nosql.dl.repo.CommentRepo;
 import com.nosql.sl.request.AddCommentRequest;
+import com.nosql.sl.request.UpdateBlogPostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -40,5 +42,16 @@ public class CommentService {
     public List<Comment> getAllCommentsForPost(String blogPostId) {
         BlogPost blogPost = blogPostRepo.findById(blogPostId).orElseThrow();
         return blogPost.getComments();
+    }
+
+    public void moderateComment(String commentId) {
+        Comment comment = commentRepo.findById(commentId).orElseThrow();
+        comment = commentRepo.save(Comment.builder()
+                .id(comment.getId())
+                .author(comment.getAuthor())
+                .content(comment.getContent())
+                .timestamp(comment.getTimestamp())
+                .moderated(true)
+                .build());
     }
 }

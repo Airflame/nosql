@@ -24,6 +24,13 @@ public class CommentEndpoint {
         return commentService.addCommentToPost(addCommentRequest, blogPostId, authentication);
     }
 
+    @DeleteMapping("/api/comments/{commentId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseBody
+    public void moderateComment(@PathVariable(name = "commentId") String commentId) {
+        commentService.moderateComment(commentId);
+    }
+
     @GetMapping("/api/blog-post/{blogPostId}/comments")
     @ResponseBody
     public List<Comment> getAllCommentsForPost(@PathVariable("blogPostId") String blogPostId) {
