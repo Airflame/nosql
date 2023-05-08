@@ -1,14 +1,13 @@
 package com.nosql.sl;
 
+import com.mongodb.lang.Nullable;
 import com.nosql.bl.BlogPostService;
 import com.nosql.bl.dto.BlogPostDto;
 import com.nosql.dl.model.BlogPost;
 import com.nosql.sl.request.AddBlogPostRequest;
 import com.nosql.sl.request.UpdateBlogPostRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +43,14 @@ public class BlogPostEndpoint {
 
     @GetMapping
     @ResponseBody
-    public List<BlogPost> getAllBlogPosts() {
-        return blogPostService.getAllBlogPosts();
+    public List<BlogPost> getBlogPosts(
+            @Nullable @RequestParam(name = "from") String from,
+            @Nullable @RequestParam(name = "to") String to
+    ) {
+        if (from != null && to != null) return blogPostService.findBlogPostByTimestampBetween(from, to);
+        else if (from != null) return blogPostService.findBlogPostByTimestampFrom(from);
+        else if (to != null) return blogPostService.findBlogPostByTimestampTo(to);
+        else return blogPostService.getAllBlogPosts();
     }
 
     @GetMapping("/{blogPostId}")
@@ -53,4 +58,5 @@ public class BlogPostEndpoint {
     public BlogPost getBlogPostById(@PathVariable(name = "blogPostId") String blogPostId) {
         return blogPostService.getBlogPostById(blogPostId);
     }
+
 }

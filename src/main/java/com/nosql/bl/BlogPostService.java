@@ -10,7 +10,9 @@ import com.nosql.sl.request.UpdateBlogPostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,22 @@ public class BlogPostService {
 
     public List<BlogPost> getAllBlogPosts() {
         return blogPostRepo.findAll();
+    }
+
+    public List<BlogPost> findBlogPostByTimestampBetween(String from, String to) {
+        LocalDateTime ldtFrom = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+        LocalDateTime ldtTo = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).atStartOfDay().minusNanos(1);
+        return blogPostRepo.findBlogPostByTimestampBetween(ldtFrom, ldtTo);
+    }
+
+    public List<BlogPost> findBlogPostByTimestampFrom(String from) {
+        LocalDateTime ldtFrom = LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+        return blogPostRepo.findBlogPostByTimestampAfter(ldtFrom);
+    }
+
+    public List<BlogPost> findBlogPostByTimestampTo(String to) {
+        LocalDateTime ldtTo = LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1).atStartOfDay().minusNanos(1);
+        return blogPostRepo.findBlogPostByTimestampBefore(ldtTo);
     }
 
     public BlogPost getBlogPostById(String blogPostId) {
