@@ -76,4 +76,17 @@ public class BlogPostService {
                 .build());
         return BlogPostDto.mapFromBlogPost(blogPost);
     }
+
+    public BlogPostDto likeBlogPost(String blogPostId) {
+        BlogPost blogPost = blogPostRepo.findById(blogPostId).orElseThrow();
+        blogPost = blogPostRepo.save(BlogPost.builder()
+                .id(blogPost.getId())
+                .content(blogPost.getContent())
+                .keywords(blogPost.getKeywords())
+                .timestamp(blogPost.getTimestamp())
+                .comments(blogPost.getComments())
+                .likes(blogPost.getLikes() + 1)
+                .build());
+        return BlogPostDto.mapFromBlogPost(blogPost);
+    }
 }

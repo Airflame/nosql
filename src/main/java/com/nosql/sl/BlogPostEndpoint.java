@@ -41,6 +41,13 @@ public class BlogPostEndpoint {
         return blogPostService.updateBlogPost(updateBlogPostRequest, blogPostId);
     }
 
+    @PutMapping("/{blogPostId}/likeUp")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority({'ADMIN', 'GUEST'})")
+    public BlogPostDto likeBlogPost(@PathVariable(name = "blogPostId") String blogPostId) {
+        return blogPostService.likeBlogPost(blogPostId);
+    }
+
     @GetMapping
     @ResponseBody
     public List<BlogPost> getBlogPosts(
