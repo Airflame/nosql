@@ -48,9 +48,9 @@ public class BlogPostEndpoint {
         return blogPostService.likeBlogPost(blogPostId);
     }
 
-    @GetMapping
+    @GetMapping("/byDate")
     @ResponseBody
-    public List<BlogPost> getBlogPosts(
+    public List<BlogPost> getBlogPostsByDate(
             @Nullable @RequestParam(name = "from") String from,
             @Nullable @RequestParam(name = "to") String to
     ) {
@@ -58,6 +58,46 @@ public class BlogPostEndpoint {
         else if (from != null) return blogPostService.findBlogPostByTimestampFrom(from);
         else if (to != null) return blogPostService.findBlogPostByTimestampTo(to);
         else return blogPostService.getAllBlogPosts();
+    }
+
+    @GetMapping("/byLikes")
+    @ResponseBody
+    public List<BlogPost> getBlogPostsByLikes(
+            @Nullable @RequestParam(name = "gte") Long gte,
+            @Nullable @RequestParam(name = "lte") Long lte
+    ) {
+        if (lte != null && gte != null) return blogPostService.findBlogPostByLikesBetween(gte, lte);
+        else if (lte != null) return blogPostService.findBlogPostByLikesLessThanEqual(lte);
+        else if (gte != null) return blogPostService.findBlogPostByLikesGreaterThanEqual(gte);
+        else return blogPostService.getAllBlogPosts();
+    }
+
+    @GetMapping("/byKeywords")
+    @ResponseBody
+    public List<BlogPost> getBlogPostsByKeywords(
+            @Nullable @RequestParam(name = "keywords") List<String> keywords) {
+        if (keywords != null) return blogPostService.findBlogPostByKeywordsContains(keywords);
+        else return blogPostService.getAllBlogPosts();
+    }
+
+    @GetMapping("/byContent")
+    @ResponseBody
+    public List<BlogPost> findBlogPostByContentContaining(
+            @Nullable @RequestParam(name = "text") String text) {
+        if (text != null) return blogPostService.findBlogPostByContentContaining(text);
+        else return blogPostService.getAllBlogPosts();
+    }
+
+    @GetMapping("/byComments")
+    @ResponseBody
+    public List<BlogPost> findBlogPostByCommentsIsNotNull() {
+        return blogPostService.findBlogPostByCommentsIsNotNull();
+    }
+
+    @GetMapping
+    @ResponseBody
+    public List<BlogPost> getAllBlogPosts() {
+        return blogPostService.getAllBlogPosts();
     }
 
     @GetMapping("/{blogPostId}")

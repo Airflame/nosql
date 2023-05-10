@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,9 +48,32 @@ public class BlogPostService {
         return blogPostRepo.findBlogPostByTimestampBefore(ldtTo);
     }
 
+    public List<BlogPost> findBlogPostByLikesGreaterThanEqual(Long gte) {
+        return blogPostRepo.findBlogPostByLikesGreaterThanEqual(gte);
+    }
+
+    public List<BlogPost> findBlogPostByLikesLessThanEqual(Long lte) {
+        return blogPostRepo.findBlogPostByLikesLessThanEqual(lte);
+    }
+
+    public List<BlogPost> findBlogPostByLikesBetween(Long gte, Long lte) {
+        return blogPostRepo.findBlogPostByLikesBetween(gte, lte);
+    }
+
+    public List<BlogPost> findBlogPostByKeywordsContains(List<String> keywords) {
+        return blogPostRepo.findBlogPostByKeywordsContains(keywords);
+    }
+
+    public List<BlogPost> findBlogPostByCommentsIsNotNull() {
+        return blogPostRepo.findBlogPostByCommentsIsNotNull();
+    }
+
+    public List<BlogPost> findBlogPostByContentContaining(String text) {
+        return blogPostRepo.findBlogPostByContentContaining(text);
+    }
+
     public BlogPost getBlogPostById(String blogPostId) {
-        Optional<BlogPost> blogPostOpt = blogPostRepo.findById(blogPostId);
-        return blogPostOpt.get();
+        return blogPostRepo.findById(blogPostId).orElseThrow();
     }
 
     public void deleteBlogPost(String blogPostId) {
